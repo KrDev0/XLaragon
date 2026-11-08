@@ -1,0 +1,20 @@
+# Build output and Visual Studio state
+bin/
+obj/
+artifacts/
+.vs/
+*.user
+*.suo
+*.Backup.tmp
+
+# Local screenshots, dumps, and reverse-engineering work files
+shots/
+tools/
+MECHANICS.md
+mechanics.json
+
+# Local logs and generated diagnostics
+*.log
+*.dump
+*.tmp
+*.cache

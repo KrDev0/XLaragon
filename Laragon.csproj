@@ -1,0 +1,67 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <AssemblyName>xlaragon</AssemblyName>
+    <RootNamespace>Laragon</RootNamespace>
+    <Product>XLaragon</Product>
+    <AssemblyTitle>XLaragon</AssemblyTitle>
+    <Version>1.0.0</Version>
+    <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+    <NoWarn>CA1416;WFO1000</NoWarn>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <ApplicationIcon>Images\22246elephant_98758.ico</ApplicationIcon>
+    <Copyright>KrDev</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Images\22246elephant_98758.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Launchers.resx and MenuActions.resx are the empty placeholder files Visual Studio
+         writes beside a class it opens in its designer. Both of those files declare MainForm
+         (they are partial classes of it), so the build hands them the same manifest resource
+         name as MainForm.resx and stops with MSB3577. Naming them after themselves fixes that
+         without deleting or changing either file, so a designer save stays free to fill them.
+         The same happens to Branding.resx, MenuLists.resx and MenuRuntime.resx, which also
+         declare a partial class MainForm; they are mapped the same way below. If Visual Studio
+         ever writes another `<Name>.resx` beside a `partial class MainForm` file, add one more
+         entry here with `<Name>` in both places and the build goes through again. -->
+    <EmbeddedResource Update="Launchers.resx">
+      <ManifestResourceName>Laragon.Launchers</ManifestResourceName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MenuActions.resx">
+      <ManifestResourceName>Laragon.MenuActions</ManifestResourceName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Branding.resx">
+      <ManifestResourceName>Laragon.Branding</ManifestResourceName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MenuLists.resx">
+      <ManifestResourceName>Laragon.MenuLists</ManifestResourceName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MenuRuntime.resx">
+      <ManifestResourceName>Laragon.MenuRuntime</ManifestResourceName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
