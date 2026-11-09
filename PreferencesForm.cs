@@ -17,7 +17,9 @@ namespace Laragon
     ///   laragon.AutoBackup (1), laragon.BackupInterval (8), laragon.AutoUpdate (1),
     ///   &lt;service&gt;.Port, .SSLPort, .SSL, .Enabled,
     ///   mailcatcher.Use (1), mailcatcher.DisplayTime (1..100),
-    ///   mailsender.Use (1), mailsender.MailSenderEmail, mailsender.Password.
+    ///   mailsender.Use (1), and the mail account under [preferences]:
+    ///   preferences.MailSenderEmail and preferences.MailSenderPassword, the latter encoded
+    ///   with the original's own XOR stream (MailSecret.cs).
     /// </summary>
     public partial class PreferencesForm : Form
     {
@@ -155,8 +157,24 @@ namespace Laragon
             numMailSeconds.Value = Clamp(s.GetInt("mailcatcher", "DisplayTime", 3), numMailSeconds);
 
             chkMailSender.Checked = s.GetBool("mailsender", "Use", true);
-            txtGmailAddress.Text = s.Get("mailsender", "MailSenderEmail", string.Empty);
-            _savedPassword = s.Get("mailsender", "Password", string.Empty);
+
+            // FUN_100095ae0 (0x100095ae0) reads [preferences] MailSenderEmail with an empty
+            // default (FUN_10009f540, section "preferences" at 0x1003a1810), and
+            // FUN_100095b10 (0x100095b10) reads [preferences] MailSenderPassword — not the
+            // [mailsender] section this rebuild used to write. The password is stored encoded
+            // (FUN_100095fa0 at 0x100095fa0): two upper-case hex digits per byte of an XOR
+            // stream seeded at 0x1f4b, stepped by *0x302d-0x4cc0. MailSecret does that walk.
+            txtGmailAddress.Text = s.Get("preferences", "MailSenderEmail", string.Empty);
+
+            string stored = s.Get("preferences", "MailSenderPassword", string.Empty);
+            if (stored.Length == 0)
+            {
+                // an ini this rebuild wrote before it learned the original's key and encoding:
+                // that value is plain text, so it is shown as it stands
+                stored = s.Get("mailsender", "Password", string.Empty);
+            }
+
+            _savedPassword = MailSecret.Decode(stored);
             txtGmailPassword.Text = _savedPassword.Length == 0 ? string.Empty : HiddenPassword;
 
             lblSettingsFile.Text = Language.T("Setting file: ") + s.FilePath;
@@ -279,7 +297,7 @@ namespace Laragon
             PutBool(s, "mailcatcher", "Use", chkMailCatcher.Checked);
             s.Set("mailcatcher", "DisplayTime", seconds.ToString());
             PutBool(s, "mailsender", "Use", chkMailSender.Checked);
-            s.Set("mailsender", "MailSenderEmail", address);
+            s.Set("preferences", "MailSenderEmail", address);
 
             // "********" means "the stored password, unchanged" — as the original shows it.
             if (txtGmailPassword.Text != HiddenPassword)
@@ -287,7 +305,9 @@ namespace Laragon
                 _savedPassword = txtGmailPassword.Text;
             }
 
-            s.Set("mailsender", "Password", _savedPassword);
+            // The original's own key and encoding (FUN_100096350 at 0x100096350 writing through
+            // FUN_100095e40 at 0x100095e40), so the original reads back what this writes.
+            s.Set("preferences", "MailSenderPassword", MailSecret.Encode(_savedPassword));
 
             // FUN_10008d820 (0x10008d820) writes these three keys once, only when they are
             // missing: smtp_server=smtp.gmail.com, smtp_port=587, smtp_ssl=TLS. The mail test

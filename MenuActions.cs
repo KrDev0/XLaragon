@@ -1367,24 +1367,33 @@ namespace Laragon
             Component component = C(key);
             if (component == null || string.IsNullOrEmpty(version))
             {
+                Say(Unavailable);
                 return;
             }
 
             string folder = Path.Combine(Path.Combine(_stack.Bin, component.SubFolder), version);
             if (!Directory.Exists(folder))
             {
+                // the row was drawn from a folder that has since gone: say it instead of nothing
+                Say(Language.T("File not found: ") + folder);
                 return;
             }
 
-            // PHP's own rule: a thread-safe build folder is never switched to
+            // PHP's own rule: a thread-safe build folder is never switched to (FUN_100058bc0 tests
+            // the name through FUN_1000901b0 and returns without a word; this says it out loud)
             if (key == "php" && version.IndexOf("-nts-", StringComparison.OrdinalIgnoreCase) >= 0)
             {
+                Say(component.Name + " " + Language.T("Version") + ": " + version + " (NTS)");
                 return;
             }
 
             string inUse = component.Installed ? Path.GetFileName(component.Folder) : string.Empty;
+            string previousFolder = component.Installed ? component.Folder : string.Empty;
             if (string.Equals(version, inUse, StringComparison.OrdinalIgnoreCase))
             {
+                // already the one in use: the original returns in silence, which reads as a broken
+                // click; the same message as a real switch says what the version is
+                Say(component.Name + " " + Language.T("Version") + ": " + version);
                 return;
             }
 
@@ -1392,10 +1401,26 @@ namespace Laragon
             _stack.Settings.Save();
             _stack.Reload();
 
+            // PHP also has to be written into the web server's own settings, or Apache keeps
+            // serving the version it was configured with while the ini already names the new one
+            // — the half-switched state that ends in "the procedure entry point
+            // libssh2_crypto_engine could not be located" (see PhpSettings.cs and §36).
+            if (key == "php")
+            {
+                Component phpNow = C("php");
+                if (phpNow != null && phpNow.Installed)
+                {
+                    PhpSettings.Apply(_stack.Etc, phpNow.Folder, previousFolder);
+                }
+            }
+
             if (key == "php" || key == "apache" || key == "nginx")
             {
                 RestartWebServers();
             }
+
+            // every Version list may now list a different folder as the one in use
+            ForgetVersionItems();
 
             SyncMenu();
             BuildRows();

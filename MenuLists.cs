@@ -103,9 +103,64 @@ namespace Laragon
                 }
 
                 string key = pair[1];
-                item.DropDownOpening += delegate { FillVersionItems(item, key); };
+
+                // two ways in, on purpose. A row of a list that code added can be replaced between
+                // the mouse going down and coming up, and then the row's own Click is never raised;
+                // the drop-down's DropDownItemClicked is raised by the owner instead and always
+                // arrives. EnsureVersionItems keeps the rows where they are unless something really
+                // changed, so the common case does not touch them at all.
+                item.DropDownOpening += delegate { EnsureVersionItems(item, key); };
                 item.DropDownOpening += delegate { IconiseMenu(item); };
+                item.DropDownItemClicked += delegate(object sender, ToolStripItemClickedEventArgs ev)
+                {
+                    VersionRowClicked(ev == null ? null : ev.ClickedItem);
+                };
             }
+        }
+
+        /// <summary>
+        /// Rebuilds a Version list only when what it is built from has changed: the folder in use or
+        /// the folders under bin\&lt;subfolder&gt;. When neither moved, the rows already there are left
+        /// exactly as they are — which is what lets the person's click land on the row they aimed at.
+        /// </summary>
+        private void EnsureVersionItems(ToolStripMenuItem item, string key)
+        {
+            string stamp = VersionStamp(key);
+            string known;
+            if (_versionStamps.TryGetValue(key, out known) && string.Equals(known, stamp, StringComparison.Ordinal))
+            {
+                return;
+            }
+
+            FillVersionItems(item, key);
+        }
+
+        /// <summary>
+        /// What a list was built from: the folder in use, then the folders under bin\&lt;subfolder&gt;.
+        /// Cheap enough to take on every open (one folder listing), and it changes the moment a
+        /// version is switched or a folder is added by hand.
+        /// </summary>
+        private string VersionStamp(string key)
+        {
+            Component component = _stack.Find(key);
+            string folder = Path.Combine(_stack.Bin, component == null ? key : component.SubFolder);
+            string[] folders;
+            try
+            {
+                folders = Directory.Exists(folder) ? Directory.GetDirectories(folder) : new string[0];
+            }
+            catch
+            {
+                folders = new string[0];
+            }
+
+            return (component == null ? string.Empty : component.Folder) + "|" + string.Join(",", folders);
+        }
+
+        /// <summary>Forgets what every Version list was built from, so the next open rebuilds it.</summary>
+        internal void ForgetVersionItems()
+        {
+            _versionStamps.Clear();
         }
 
         /// <summary>
@@ -122,6 +177,10 @@ namespace Laragon
         }
 
         private bool _listsHooked;
+
+        // what each Version list was built from, so an unchanged list is never rebuilt while the
+        // person is pointing at it (MenuLists.EnsureVersionItems)
+        private readonly Dictionary<string, string> _versionStamps = new Dictionary<string, string>();
 
         /// <summary>
         /// The lists are rebuilt every time their menu opens. Filling them once at start-up
@@ -710,6 +769,10 @@ namespace Laragon
         // "the separators are multiplying").
         private const string VersionSepRow = "sep";
 
+        // the greyed row a list with nothing installed carries; its own prefix keeps it out of
+        // the version-row count (tools\count.py versions) and still lets a later fill remove it
+        private const string VersionNotePrefix = "VersionNote:";
+
         /// <summary>
         /// One row per installed version folder, under each software's Version submenu.
         /// FUN_100069ba0 (0x100069ba0) is the Node.js copy of one routine the original repeats
@@ -756,7 +819,9 @@ namespace Laragon
             for (int i = item.DropDownItems.Count - 1; i >= 0; i--)
             {
                 string tag = item.DropDownItems[i].Tag as string;
-                if (tag != null && tag.StartsWith(VersionRowPrefix, StringComparison.Ordinal))
+                if (tag != null
+                    && (tag.StartsWith(VersionRowPrefix, StringComparison.Ordinal)
+                        || tag.StartsWith(VersionNotePrefix, StringComparison.Ordinal)))
                 {
                     item.DropDownItems.RemoveAt(i);
                 }
@@ -773,6 +838,17 @@ namespace Laragon
                     row.Click += VersionRowClick;
                     item.DropDownItems.Insert(at++, row);
                 }
+
+                // nothing installed: the original's list comes out with no version row at all, which
+                // looks like a dead submenu. One greyed row says why, and it is not a version row, so
+                // it is not counted as one.
+                if (component.Versions.Count == 0)
+                {
+                    ToolStripMenuItem note = new ToolStripMenuItem(Language.T("No version installed"));
+                    note.Tag = VersionNotePrefix + key;
+                    note.Enabled = false;
+                    item.DropDownItems.Insert(at++, note);
+                }
             }
 
             // then the two rows that close the list: "dir: <version in use>", then the separator.
@@ -787,17 +863,110 @@ namespace Laragon
             ToolStripSeparator close = new ToolStripSeparator();
             close.Tag = VersionRowPrefix + key + "|" + VersionSepRow;
             item.DropDownItems.Add(close);
+
+            // remember what this list was built from (MenuLists.EnsureVersionItems)
+            _versionStamps[key] = VersionStamp(key);
         }
 
         private void VersionRowClick(object sender, EventArgs e)
         {
-            string[] parts = SplitVersionTag(sender == null ? null : (sender as ToolStripItem).Tag as string);
+            VersionRowClicked(sender as ToolStripItem);
+        }
+
+        /// <summary>
+        /// What a clicked row of a Version submenu does, whichever way the click arrived: the row's
+        /// own Click (hover/open path) or the drop-down's DropDownItemClicked (fires even when the
+        /// row object was replaced under the mouse).
+        /// </summary>
+        private void VersionRowClicked(ToolStripItem row)
+        {
+            string[] parts = SplitVersionTag(row == null ? null : row.Tag as string);
             if (parts == null || parts[1] == VersionDirRow)
             {
                 return;
             }
 
             SwitchVersion(parts[0], parts[1]);
+        }
+
+        /// <summary>
+        /// Runs the real click path for one version row, without a mouse, and prints what each
+        /// step of it produced — the ini, the record, the window's caption and the file on disk.
+        /// This is how a version switch is checked; nothing is started (ScreenshotOnly is on).
+        /// </summary>
+        internal void TryVersion(string key, string version)
+        {
+            ToolStripMenuItem parent = null;
+            foreach (string[] pair in VersionItems)
+            {
+                if (string.Equals(pair[1], key, StringComparison.OrdinalIgnoreCase))
+                {
+                    parent = FindItem(pair[0]);
+                }
+            }
+
+            if (parent == null)
+            {
+                Console.WriteLine("no Version submenu for " + key);
+                return;
+            }
+
+            Component before = _stack.Find(key);
+            Console.WriteLine("submenu: " + parent.Name + "  caption: " + parent.Text);
+            Console.WriteLine("before:  ini=" + _stack.Settings.Get(key, "Version", "<none>")
+                + "  folder=" + (before == null ? "<none>" : before.Folder));
+            Console.WriteLine("rows:    " + string.Join(", ", RowCaptions(parent)));
+
+            // the same two fills a drop-down does when it is opened twice: the second must leave the
+            // rows alone, or the click the person is aiming at lands on a row that no longer exists
+            EnsureVersionItems(parent, key);
+            ToolStripItem firstRow = parent.DropDownItems.Count > 0 ? parent.DropDownItems[0] : null;
+            EnsureVersionItems(parent, key);
+            ToolStripItem secondRow = parent.DropDownItems.Count > 0 ? parent.DropDownItems[0] : null;
+            Console.WriteLine("filled:  " + string.Join(", ", RowCaptions(parent)));
+            Console.WriteLine("stable:  second open kept the same rows: " + object.ReferenceEquals(firstRow, secondRow));
+
+            ToolStripMenuItem row = null;
+            foreach (ToolStripItem item in parent.DropDownItems)
+            {
+                if (string.Equals(item.Tag as string, VersionRowPrefix + key + "|" + version, StringComparison.Ordinal))
+                {
+                    row = item as ToolStripMenuItem;
+                }
+            }
+
+            if (row == null)
+            {
+                Console.WriteLine("no row for " + version + " (not an installed folder, or the row is missing)");
+                return;
+            }
+
+            // the click itself. Two routes are wired in the form: the row's own Click, and the
+            // drop-down's DropDownItemClicked, which still arrives when the row was replaced
+            row.PerformClick();
+            VersionRowClicked(row);
+
+            Component after = _stack.Find(key);
+            Console.WriteLine("after:   ini=" + _stack.Settings.Get(key, "Version", "<none>")
+                + "  folder=" + (after == null ? "<none>" : after.Folder)
+                + "  version=" + (after == null ? "<none>" : after.Version)
+                + "  caption=" + parent.Text);
+
+            // and what a fresh start would read back off the disk
+            var fresh = new Stack();
+            Console.WriteLine("on disk: ini=" + fresh.Settings.Get(key, "Version", "<none>")
+                + "  folder=" + (fresh.Find(key) == null ? "<none>" : fresh.Find(key).Folder));
+        }
+
+        private static List<string> RowCaptions(ToolStripMenuItem parent)
+        {
+            var captions = new List<string>();
+            foreach (ToolStripItem item in parent.DropDownItems)
+            {
+                captions.Add(item is ToolStripSeparator ? "<sep>" : item.Text);
+            }
+
+            return captions;
         }
 
         private void VersionDirClick(object sender, EventArgs e)

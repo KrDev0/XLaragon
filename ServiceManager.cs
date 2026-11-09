@@ -70,6 +70,11 @@ namespace Laragon
                     }
                 }
 
+                // before the web server reads its own config, make that config name the PHP
+                // version the settings name — a switch that could not rewrite it, or a config
+                // left over from an older install, is corrected here
+                RepairPhpWiring(service);
+
                 ProcessStartInfo info = BuildStartInfo(service);
                 Process process = Process.Start(info);
                 if (process != null)
@@ -239,12 +244,72 @@ namespace Laragon
                 : service.Folder;
 
             string args = ArgumentsFor(service);
-            return new ProcessStartInfo(service.Executable, args)
+            var info = new ProcessStartInfo(service.Executable, args)
             {
                 UseShellExecute = false,
                 CreateNoWindow = true,
                 WorkingDirectory = workingDirectory
             };
+
+            // ONE PHP FOLDER ONLY, and this is the line that decides it. Windows finds a DLL's
+            // own dependencies in the folder of the program that loaded it and then in PATH —
+            // never in the DLL's own folder. So httpd started with a PATH that still lists
+            // another PHP folder loads that folder's libssh2.dll beside this version's
+            // ext\php_curl.dll, and Windows refuses the pair with "the procedure entry point
+            // libssh2_crypto_engine could not be located in ... ext\php_curl.dll". No config
+            // file can prevent that; only the environment the server is started in can.
+            string phpFolder = PhpFolderInUse();
+            if (phpFolder != null)
+            {
+                info.Environment["PATH"] = PhpSettings.IsolatePath(
+                    phpFolder, Environment.GetEnvironmentVariable("PATH") ?? string.Empty);
+            }
+
+            return info;
+        }
+
+        /// <summary>The PHP folder the settings name, or null when PHP is not installed.</summary>
+        private string PhpFolderInUse()
+        {
+            Component php = _stack == null ? null : _stack.Find("php");
+            if (php == null || string.IsNullOrEmpty(php.Folder) || !Directory.Exists(php.Folder))
+            {
+                return null;
+            }
+
+            return php.Folder;
+        }
+
+        /// <summary>
+        /// Makes the web server's own files name the PHP version the settings name, before the
+        /// server is started. A switch that wrote the settings but could not rewrite a config —
+        /// or a config left over from an older install — is put right here, on the person's
+        /// click, so "nothing changed" cannot come back.
+        /// </summary>
+        private void RepairPhpWiring(Component service)
+        {
+            if (service == null || _stack == null)
+            {
+                return;
+            }
+
+            if (service.Key != "apache" && service.Key != "nginx" && service.Key != "php")
+            {
+                return;
+            }
+
+            try
+            {
+                PhpSettings.Sync(_stack);
+            }
+            catch (IOException)
+            {
+                // a locked or read-only config: the server still starts with what it has
+            }
+            catch (UnauthorizedAccessException)
+            {
+                // without administrator rights the repair waits for a run that has them
+            }
         }
 
         /// <summary>

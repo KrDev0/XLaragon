@@ -1,7 +1,11 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Security.Principal;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -25,11 +29,119 @@ namespace Laragon
         /// </summary>
         internal static bool DumpUi;
 
+        /// <summary>
+        /// True when this copy is running without administrator rights because the person said No
+        /// to Windows' question, so nothing here pretends the rights were granted.
+        /// </summary>
+        internal static bool StartedUnelevated;
+
+        /// <summary>
+        /// True for the switches that save a picture, list what the program sees, or perform one
+        /// click and report it: those run from a build, from a plain command line, and must not
+        /// put a Windows elevation prompt in the way.
+        /// </summary>
+        private static bool IsHeadless(string[] args)
+        {
+            foreach (string arg in args)
+            {
+                if (string.Equals(arg, "--screenshot", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(arg, "--screenshot-prefs", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(arg, "--screenshot-about", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(arg, "--list", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(arg, "--menudump", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(arg, "--mailsecret", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(arg, "--tryversion", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(arg, "--phpsync", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(arg, "--dump", StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>Whether this copy already has administrator rights.</summary>
+        private static bool IsElevated()
+        {
+            try
+            {
+                using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
+                {
+                    return new WindowsPrincipal(identity).IsInRole(WindowsBuiltInRole.Administrator);
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Starts this program again through Windows' "run as administrator" prompt and answers
+        /// true when that other copy was started. False means the person said No, or the prompt
+        /// could not be shown, and the caller carries on unelevated.
+        /// </summary>
+        private static bool RelaunchAsAdministrator(string[] args)
+        {
+            try
+            {
+                var quoted = new StringBuilder();
+                foreach (string arg in args)
+                {
+                    if (quoted.Length > 0)
+                    {
+                        quoted.Append(' ');
+                    }
+
+                    quoted.Append('"').Append(arg.Replace("\"", "\\\"")).Append('"');
+                }
+
+                var start = new ProcessStartInfo
+                {
+                    FileName = Application.ExecutablePath,
+                    Arguments = quoted.ToString(),
+                    WorkingDirectory = AppContext.BaseDirectory,
+                    UseShellExecute = true,
+                    Verb = "runas"
+                };
+
+                Process.Start(start);
+                return true;
+            }
+            catch (Win32Exception)
+            {
+                // 1223: the person pressed No on the User Account Control question
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         [STAThread]
         private static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            // Starting and stopping Apache, MySQL and the rest needs administrator rights, which
+            // is how the original is used too (the person runs laragon.exe "as administrator").
+            // Rather than baking a manifest that would demand them from every copy of the program
+            // — and break the quiet --screenshot / --tryversion runs the build is checked with —
+            // the window asks Windows for them on the way up: the program starts itself again
+            // elevated and the first copy steps aside. A headless run never asks.
+            if (!IsHeadless(args) && !IsElevated())
+            {
+                if (RelaunchAsAdministrator(args))
+                {
+                    return;
+                }
+
+                // the person answered No to Windows' question: carry on as before
+                StartedUnelevated = true;
+            }
 
             string shotPath = null;
             for (int i = 0; i < args.Length - 1; i++)
@@ -41,7 +153,7 @@ namespace Laragon
             }
 
             string prefsShot = null;
-            int prefsTab = 0;            for (int i = 0; i < args.Length - 1; i++)
+            int prefsTab = 0; for (int i = 0; i < args.Length - 1; i++)
             {
                 if (string.Equals(args[i], "--screenshot-prefs", StringComparison.OrdinalIgnoreCase))
                 {
@@ -128,8 +240,106 @@ namespace Laragon
 
                 return;
             }
+            int mailSecret = Array.IndexOf(args, "--mailsecret");
+            if (mailSecret >= 0)
+            {
+                // diagnostic: prove the mail password encoding against the two test words whose
+                // answers were worked out from the decompiled formula by tools\pwcheck.py, and
+                // say how the ini's own values read back — by length only. The stored password
+                // is never printed, so this is safe to run on a real install.
+                ScreenshotOnly = true;
+                Console.WriteLine("mail secret: FUN_100095e40 (0x100095e40) / FUN_100095fa0 (0x100095fa0)");
+                string[,] vectors = { { "abc", "7E9BCE" }, { "hunter2", "77DDAFBCCFBBB7" } };
+                for (int i = 0; i < vectors.GetLength(0); i++)
+                {
+                    string word = vectors[i, 0];
+                    string want = vectors[i, 1];
+                    string got = MailSecret.Encode(word);
+                    string back = MailSecret.Decode(got);
+                    Console.WriteLine("  encode(\"" + word + "\") = " + got +
+                                      (got == want ? "  match" : "  MISMATCH, expected " + want) +
+                                      (back == word ? "  decodes back" : "  DOES NOT DECODE BACK"));
+                }
+
+                var mailStack = new Stack();
+                Console.WriteLine("  ini: " + mailStack.Settings.FilePath);
+                string address = mailStack.Settings.Get("preferences", "MailSenderEmail", string.Empty);
+                string stored = mailStack.Settings.Get("preferences", "MailSenderPassword", string.Empty);
+                Console.WriteLine("  [preferences] MailSenderEmail: " + address.Length + " character(s)");
+                if (stored.Length == 0)
+                {
+                    Console.WriteLine("  [preferences] MailSenderPassword: not set");
+                }
+                else if (MailSecret.TryDecode(stored, out string plain))
+                {
+                    Console.WriteLine("  [preferences] MailSenderPassword: " + stored.Length +
+                                      " characters of the original's encoding, reads back as " +
+                                      plain.Length + " character(s)");
+                }
+                else
+                {
+                    Console.WriteLine("  [preferences] MailSenderPassword: " + stored.Length +
+                                      " characters, NOT the original's encoding (shown as it stands)");
+                }
+
+                return;
+            }
+
             if (shotPath == null)
             {
+                int tryVersion = Array.IndexOf(args, "--tryversion");
+                if (tryVersion >= 0 && tryVersion + 2 < args.Length)
+                {
+                    // diagnostic: perform the very click a row of a Version submenu gets, then
+                    // report what the settings, the record and the file say, so a switch can be
+                    // checked without a mouse. Nothing is started: ScreenshotOnly is on.
+                    ScreenshotOnly = true;
+                    using (var tryForm = new MainForm())
+                    {
+                        tryForm.TryVersion(args[tryVersion + 1], args[tryVersion + 2]);
+                    }
+
+                    return;
+                }
+
+                if (Array.IndexOf(args, "--phpsync") >= 0)
+                {
+                    // repair, without starting anything: make every file the web server reads
+                    // name the one PHP folder the settings name. This is what a version switch
+                    // does too; here it can be run on its own when a config was left behind by an
+                    // older install, and it prints what it changed. No server is started.
+                    var syncStack = new Stack();
+                    Console.WriteLine("root: " + syncStack.Root);
+                    Component syncPhp = syncStack.Find("php");
+                    Console.WriteLine("php:  " + (syncPhp == null || string.IsNullOrEmpty(syncPhp.Folder)
+                        ? "(none found)"
+                        : syncPhp.Folder));
+                    if (syncPhp == null || string.IsNullOrEmpty(syncPhp.Folder))
+                    {
+                        Console.WriteLine("nothing to do: no PHP folder is installed in this root");
+                        return;
+                    }
+
+                    IList<string> changed = PhpSettings.Sync(syncStack);
+                    if (changed.Count == 0)
+                    {
+                        Console.WriteLine("already correct: every file the web server reads names "
+                            + syncPhp.Folder);
+                    }
+                    else
+                    {
+                        foreach (string file in changed)
+                        {
+                            Console.WriteLine("wrote " + file);
+                        }
+                    }
+
+                    Console.WriteLine("PATH for the servers: "
+                        + PhpSettings.IsolatePath(syncPhp.Folder,
+                            Environment.GetEnvironmentVariable("PATH") ?? string.Empty));
+                    return;
+                }
+
                 if (Array.IndexOf(args, "--list") >= 0)
                 {
                     // diagnostic: what the program sees in its folder
@@ -139,6 +349,7 @@ namespace Laragon
                         stack.Settings.Get("laragon", "Language", Language.English)));
                     Console.WriteLine("root: " + stack.Root + "  (" + stack.RootSource + ")");
                     Console.WriteLine("ini:  " + stack.Settings.FilePath);
+                    Console.WriteLine("admin: " + (IsElevated() ? "yes" : StartedUnelevated ? "no (refused)" : "no"));
                     Console.WriteLine("lang: folder=" + Language.Folder
                         + "  packs=" + Language.Available(Language.Folder).Length
                         + "  ini=" + stack.Settings.Get("preferences", "Lang", "<none>")
@@ -182,6 +393,7 @@ namespace Laragon
             }
 
             RunScreenshot(shotPath);
+
         }
 
         /// <summary>

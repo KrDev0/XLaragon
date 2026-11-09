@@ -56,21 +56,6 @@ namespace Laragon
             lblProgramValue.Text = Path.GetFileName(Application.ExecutablePath)
                 + ", .NET " + Environment.Version.ToString(2);
 
-            // the sentence list stays in the designer; each line goes through Language.T so a
-            // language pack can translate it later, and Brand.Fix renames the original's word
-            StringBuilder sentences = new StringBuilder();
-            string[] lines = lblButtonText.Text.Replace("\r\n", "\n").Split('\n');
-            for (int i = 0; i < lines.Length; i++)
-            {
-                if (i > 0)
-                {
-                    sentences.Append("\r\n");
-                }
-
-                sentences.Append(Brand.Fix(Language.T(lines[i])));
-            }
-
-            lblButtonText.Text = sentences.ToString();
         }
 
         private static string VersionText()

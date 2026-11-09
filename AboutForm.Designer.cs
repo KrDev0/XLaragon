@@ -47,15 +47,15 @@ namespace Laragon
             lblIniValue = new Label();
             lblProgramCaption = new Label();
             lblProgramValue = new Label();
-            lblButtonsCaption = new Label();
-            lblButtonText = new Label();
             btnOpenFolder = new Button();
             btnClose = new Button();
+            pictureBox1 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
-            // 
+            //
             // picLogo
-            // 
+            //
             picLogo.Image = (Image)resources.GetObject("picLogo.Image");
             picLogo.Location = new Point(18, 16);
             picLogo.Name = "picLogo";
@@ -63,55 +63,55 @@ namespace Laragon
             picLogo.SizeMode = PictureBoxSizeMode.Zoom;
             picLogo.TabIndex = 0;
             picLogo.TabStop = false;
-            // 
+            //
             // lblProduct
-            // 
+            //
             lblProduct.Font = new Font("Arial", 20.25F, FontStyle.Bold);
             lblProduct.Location = new Point(92, 14);
             lblProduct.Name = "lblProduct";
             lblProduct.Size = new Size(300, 32);
             lblProduct.TabIndex = 1;
             lblProduct.Text = "XLaragon";
-            // 
+            //
             // lblVersion
-            // 
+            //
             lblVersion.Font = new Font("Arial", 9F);
             lblVersion.Location = new Point(95, 46);
             lblVersion.Name = "lblVersion";
             lblVersion.Size = new Size(300, 18);
             lblVersion.TabIndex = 2;
             lblVersion.Text = "Version 1.0.0";
-            // 
+            //
             // lblTagline
-            // 
+            //
             lblTagline.Font = new Font("Arial", 8.25F);
             lblTagline.ForeColor = Color.DimGray;
             lblTagline.Location = new Point(95, 66);
             lblTagline.Name = "lblTagline";
             lblTagline.Size = new Size(360, 18);
             lblTagline.TabIndex = 3;
-            lblTagline.Text = "Apache, Nginx, MySQL and PHP in one folder, started from one window.";
-            // 
+            lblTagline.Text = "Dev By: KrDev - Christian Gamboa";
+            //
             // lineTop
-            // 
+            //
             lineTop.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             lineTop.BackColor = Color.FromArgb(216, 216, 216);
             lineTop.Location = new Point(18, 100);
             lineTop.Name = "lineTop";
             lineTop.Size = new Size(432, 1);
             lineTop.TabIndex = 4;
-            // 
+            //
             // lblRootCaption
-            // 
+            //
             lblRootCaption.Font = new Font("Arial", 9F);
             lblRootCaption.Location = new Point(18, 110);
             lblRootCaption.Name = "lblRootCaption";
             lblRootCaption.Size = new Size(110, 18);
             lblRootCaption.TabIndex = 5;
             lblRootCaption.Text = "Document root";
-            // 
+            //
             // lblRootValue
-            // 
+            //
             lblRootValue.AutoEllipsis = true;
             lblRootValue.Font = new Font("Arial", 9F);
             lblRootValue.Location = new Point(130, 110);
@@ -119,18 +119,18 @@ namespace Laragon
             lblRootValue.Size = new Size(320, 18);
             lblRootValue.TabIndex = 6;
             lblRootValue.Text = "(read when the window opens)";
-            // 
+            //
             // lblIniCaption
-            // 
+            //
             lblIniCaption.Font = new Font("Arial", 9F);
             lblIniCaption.Location = new Point(18, 132);
             lblIniCaption.Name = "lblIniCaption";
             lblIniCaption.Size = new Size(110, 18);
             lblIniCaption.TabIndex = 7;
             lblIniCaption.Text = "Settings file";
-            // 
+            //
             // lblIniValue
-            // 
+            //
             lblIniValue.AutoEllipsis = true;
             lblIniValue.Font = new Font("Arial", 9F);
             lblIniValue.Location = new Point(130, 132);
@@ -138,18 +138,18 @@ namespace Laragon
             lblIniValue.Size = new Size(320, 18);
             lblIniValue.TabIndex = 8;
             lblIniValue.Text = "(read when the window opens)";
-            // 
+            //
             // lblProgramCaption
-            // 
+            //
             lblProgramCaption.Font = new Font("Arial", 9F);
             lblProgramCaption.Location = new Point(18, 154);
             lblProgramCaption.Name = "lblProgramCaption";
             lblProgramCaption.Size = new Size(110, 18);
             lblProgramCaption.TabIndex = 9;
             lblProgramCaption.Text = "Program";
-            // 
+            //
             // lblProgramValue
-            // 
+            //
             lblProgramValue.AutoEllipsis = true;
             lblProgramValue.Font = new Font("Arial", 9F);
             lblProgramValue.Location = new Point(130, 154);
@@ -157,27 +157,9 @@ namespace Laragon
             lblProgramValue.Size = new Size(320, 18);
             lblProgramValue.TabIndex = 10;
             lblProgramValue.Text = "(read when the window opens)";
-            // 
-            // lblButtonsCaption
-            // 
-            lblButtonsCaption.Font = new Font("Arial", 9F, FontStyle.Bold);
-            lblButtonsCaption.Location = new Point(18, 182);
-            lblButtonsCaption.Name = "lblButtonsCaption";
-            lblButtonsCaption.Size = new Size(200, 18);
-            lblButtonsCaption.TabIndex = 11;
-            lblButtonsCaption.Text = "What the buttons at the top do";
-            // 
-            // lblButtonText
-            // 
-            lblButtonText.Font = new Font("Arial", 8.25F);
-            lblButtonText.Location = new Point(18, 202);
-            lblButtonText.Name = "lblButtonText";
-            lblButtonText.Size = new Size(432, 104);
-            lblButtonText.TabIndex = 12;
-            lblButtonText.Text = resources.GetString("lblButtonText.Text");
-            // 
+            //
             // btnOpenFolder
-            // 
+            //
             btnOpenFolder.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnOpenFolder.Location = new Point(248, 318);
             btnOpenFolder.Name = "btnOpenFolder";
@@ -186,9 +168,9 @@ namespace Laragon
             btnOpenFolder.Text = "Open folder";
             btnOpenFolder.UseVisualStyleBackColor = true;
             btnOpenFolder.Click += btnOpenFolder_Click;
-            // 
+            //
             // btnClose
-            // 
+            //
             btnClose.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnClose.DialogResult = DialogResult.Cancel;
             btnClose.Location = new Point(372, 318);
@@ -197,17 +179,26 @@ namespace Laragon
             btnClose.TabIndex = 14;
             btnClose.Text = "Close";
             btnClose.UseVisualStyleBackColor = true;
-            // 
+            //
+            // pictureBox1
+            //
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(95, 175);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(278, 137);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 15;
+            pictureBox1.TabStop = false;
+            //
             // AboutForm
-            // 
+            //
             AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.White;
             CancelButton = btnClose;
             ClientSize = new Size(468, 356);
+            Controls.Add(pictureBox1);
             Controls.Add(btnClose);
             Controls.Add(btnOpenFolder);
-            Controls.Add(lblButtonText);
-            Controls.Add(lblButtonsCaption);
             Controls.Add(lblProgramValue);
             Controls.Add(lblProgramCaption);
             Controls.Add(lblIniValue);
@@ -227,6 +218,7 @@ namespace Laragon
             StartPosition = FormStartPosition.CenterParent;
             Text = "About XLaragon";
             ((System.ComponentModel.ISupportInitialize)picLogo).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -243,9 +235,8 @@ namespace Laragon
         private System.Windows.Forms.Label lblIniValue;
         private System.Windows.Forms.Label lblProgramCaption;
         private System.Windows.Forms.Label lblProgramValue;
-        private System.Windows.Forms.Label lblButtonsCaption;
-        private System.Windows.Forms.Label lblButtonText;
         private System.Windows.Forms.Button btnOpenFolder;
         private System.Windows.Forms.Button btnClose;
+        private PictureBox pictureBox1;
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Laragon
+namespace Laragon
 {
     partial class PreferencesForm
     {
@@ -1403,8 +1403,12 @@
             // 
             // PreferencesForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
+            // No font scaling here either: the numbers in this file are the numbers the
+            // window draws with, so a control the person moves in the Visual Studio designer
+            // stays where they put it. It used to be AutoScaleMode.Font with a 7x15 base,
+            // which multiplied every Location and Size by a ratio against Arial 9 pt -- the
+            // quiet reason a hand-placed control turned up somewhere else at run time.
+            AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.White;
             ClientSize = new Size(626, 628);
             Controls.Add(tabPrefs);

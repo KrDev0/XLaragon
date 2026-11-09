@@ -74,8 +74,6 @@ namespace Laragon
         public Stack()
         {
             ExeFolder = AppContext.BaseDirectory.TrimEnd('\\');
-            Settings = new Settings(Path.Combine(ExeFolder, "usr", "laragon.ini"));
-            Settings.Load();
 
             Root = ExeFolder;
             RootSource = "this program's folder";
@@ -84,6 +82,16 @@ namespace Laragon
                 Root = DefaultRootHint;
                 RootSource = "an existing Laragon install";
             }
+
+            // The settings are the ones of the install being switched, not of whatever folder
+            // this copy of the program happens to sit in. The original keeps them in
+            // <its own folder>\usr\laragon.ini (FUN_10009b040 at 0x10009b040 reads and
+            // FUN_10009bcc0 writes them through FUN_1000ab020, which is that path); its own
+            // folder IS the install. This rebuild usually runs out of bin\Debug instead, so the
+            // file is resolved against <root>: writing the build folder's ini is why a version
+            // click used to change nothing that the web server or the original could see.
+            Settings = new Settings(Path.Combine(Root, "usr", "laragon.ini"));
+            Settings.Load();
 
             Detect();
         }

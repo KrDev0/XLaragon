@@ -1,4 +1,4 @@
-﻿namespace Laragon
+namespace Laragon
 {
     partial class MainForm
     {
@@ -28,75 +28,75 @@
             lblDot1 = new Label();
             lblName1 = new Label();
             lblVer1 = new Label();
-            chkRow1 = new CheckBox();
+            chkRow1 = new PillSwitch();
             lblDot2 = new Label();
             lblName2 = new Label();
             lblVer2 = new Label();
-            chkRow2 = new CheckBox();
+            chkRow2 = new PillSwitch();
             lblDot3 = new Label();
             lblName3 = new Label();
             lblVer3 = new Label();
-            chkRow3 = new CheckBox();
+            chkRow3 = new PillSwitch();
             lblDot4 = new Label();
             lblName4 = new Label();
             lblVer4 = new Label();
-            chkRow4 = new CheckBox();
+            chkRow4 = new PillSwitch();
             lblDot5 = new Label();
             lblName5 = new Label();
             lblVer5 = new Label();
-            chkRow5 = new CheckBox();
+            chkRow5 = new PillSwitch();
             lblDot6 = new Label();
             lblName6 = new Label();
             lblVer6 = new Label();
-            chkRow6 = new CheckBox();
+            chkRow6 = new PillSwitch();
             lblDot7 = new Label();
             lblName7 = new Label();
             lblVer7 = new Label();
-            chkRow7 = new CheckBox();
+            chkRow7 = new PillSwitch();
             lblDot8 = new Label();
             lblName8 = new Label();
             lblVer8 = new Label();
-            chkRow8 = new CheckBox();
+            chkRow8 = new PillSwitch();
             lblDot9 = new Label();
             lblName9 = new Label();
             lblVer9 = new Label();
-            chkRow9 = new CheckBox();
+            chkRow9 = new PillSwitch();
             lblDot10 = new Label();
             lblName10 = new Label();
             lblVer10 = new Label();
-            chkRow10 = new CheckBox();
+            chkRow10 = new PillSwitch();
             lblDot11 = new Label();
             lblName11 = new Label();
             lblVer11 = new Label();
-            chkRow11 = new CheckBox();
+            chkRow11 = new PillSwitch();
             lblDot12 = new Label();
             lblName12 = new Label();
             lblVer12 = new Label();
-            chkRow12 = new CheckBox();
+            chkRow12 = new PillSwitch();
             lblDot13 = new Label();
             lblName13 = new Label();
             lblVer13 = new Label();
-            chkRow13 = new CheckBox();
+            chkRow13 = new PillSwitch();
             lblDot14 = new Label();
             lblName14 = new Label();
             lblVer14 = new Label();
-            chkRow14 = new CheckBox();
+            chkRow14 = new PillSwitch();
             lblDot15 = new Label();
             lblName15 = new Label();
             lblVer15 = new Label();
-            chkRow15 = new CheckBox();
+            chkRow15 = new PillSwitch();
             lblDot16 = new Label();
             lblName16 = new Label();
             lblVer16 = new Label();
-            chkRow16 = new CheckBox();
+            chkRow16 = new PillSwitch();
             lblDot17 = new Label();
             lblName17 = new Label();
             lblVer17 = new Label();
-            chkRow17 = new CheckBox();
+            chkRow17 = new PillSwitch();
             lblDot18 = new Label();
             lblName18 = new Label();
             lblVer18 = new Label();
-            chkRow18 = new CheckBox();
+            chkRow18 = new PillSwitch();
             panelTopLeft = new Panel();
             picLogo = new PictureBox();
             lblMenu = new Label();
@@ -403,7 +403,7 @@
             // lblDot1
             // 
             lblDot1.BackColor = Color.Gainsboro;
-            lblDot1.Location = new Point(0, 13);
+            lblDot1.Location = new Point(10, 20);
             lblDot1.Name = "lblDot1";
             lblDot1.Size = new Size(10, 10);
             lblDot1.TabIndex = 11;
@@ -412,7 +412,7 @@
             // 
             lblName1.Font = new Font("Arial", 9.75F, FontStyle.Bold);
             lblName1.ForeColor = Color.FromArgb(40, 40, 40);
-            lblName1.Location = new Point(14, 8);
+            lblName1.Location = new Point(40, 15);
             lblName1.Name = "lblName1";
             lblName1.Size = new Size(100, 18);
             lblName1.TabIndex = 21;
@@ -420,9 +420,10 @@
             // 
             // lblVer1
             // 
+            lblVer1.Anchor = AnchorStyles.None;
             lblVer1.Font = new Font("Arial", 9F);
             lblVer1.ForeColor = Color.DimGray;
-            lblVer1.Location = new Point(120, 8);
+            lblVer1.Location = new Point(137, 15);
             lblVer1.Name = "lblVer1";
             lblVer1.Size = new Size(140, 18);
             lblVer1.TabIndex = 31;
@@ -432,17 +433,18 @@
             // 
             chkRow1.Font = new Font("Arial", 9F);
             chkRow1.ForeColor = Color.FromArgb(70, 70, 70);
-            chkRow1.Location = new Point(266, 8);
+            chkRow1.Location = new Point(13, 16);
             chkRow1.Name = "chkRow1";
-            chkRow1.Size = new Size(70, 18);
+            chkRow1.Running = false;
+            chkRow1.Size = new Size(23, 14);
             chkRow1.TabIndex = 41;
-            chkRow1.Text = "Enabled";
+            chkRow1.TabStop = false;
             chkRow1.UseVisualStyleBackColor = true;
             // 
             // lblDot2
             // 
             lblDot2.BackColor = Color.Gainsboro;
-            lblDot2.Location = new Point(0, 53);
+            lblDot2.Location = new Point(10, 60);
             lblDot2.Name = "lblDot2";
             lblDot2.Size = new Size(10, 10);
             lblDot2.TabIndex = 12;
@@ -451,7 +453,7 @@
             // 
             lblName2.Font = new Font("Arial", 9.75F, FontStyle.Bold);
             lblName2.ForeColor = Color.FromArgb(40, 40, 40);
-            lblName2.Location = new Point(14, 48);
+            lblName2.Location = new Point(40, 55);
             lblName2.Name = "lblName2";
             lblName2.Size = new Size(100, 18);
             lblName2.TabIndex = 22;
@@ -459,9 +461,10 @@
             // 
             // lblVer2
             // 
+            lblVer2.Anchor = AnchorStyles.None;
             lblVer2.Font = new Font("Arial", 9F);
             lblVer2.ForeColor = Color.DimGray;
-            lblVer2.Location = new Point(120, 48);
+            lblVer2.Location = new Point(137, 55);
             lblVer2.Name = "lblVer2";
             lblVer2.Size = new Size(140, 18);
             lblVer2.TabIndex = 32;
@@ -471,17 +474,18 @@
             // 
             chkRow2.Font = new Font("Arial", 9F);
             chkRow2.ForeColor = Color.FromArgb(70, 70, 70);
-            chkRow2.Location = new Point(266, 48);
+            chkRow2.Location = new Point(13, 56);
             chkRow2.Name = "chkRow2";
-            chkRow2.Size = new Size(70, 18);
+            chkRow2.Running = false;
+            chkRow2.Size = new Size(23, 14);
             chkRow2.TabIndex = 42;
-            chkRow2.Text = "Enabled";
+            chkRow2.TabStop = false;
             chkRow2.UseVisualStyleBackColor = true;
             // 
             // lblDot3
             // 
             lblDot3.BackColor = Color.Gainsboro;
-            lblDot3.Location = new Point(0, 93);
+            lblDot3.Location = new Point(10, 100);
             lblDot3.Name = "lblDot3";
             lblDot3.Size = new Size(10, 10);
             lblDot3.TabIndex = 13;
@@ -490,7 +494,7 @@
             // 
             lblName3.Font = new Font("Arial", 9.75F, FontStyle.Bold);
             lblName3.ForeColor = Color.FromArgb(40, 40, 40);
-            lblName3.Location = new Point(14, 88);
+            lblName3.Location = new Point(40, 95);
             lblName3.Name = "lblName3";
             lblName3.Size = new Size(100, 18);
             lblName3.TabIndex = 23;
@@ -498,9 +502,10 @@
             // 
             // lblVer3
             // 
+            lblVer3.Anchor = AnchorStyles.None;
             lblVer3.Font = new Font("Arial", 9F);
             lblVer3.ForeColor = Color.DimGray;
-            lblVer3.Location = new Point(120, 88);
+            lblVer3.Location = new Point(137, 95);
             lblVer3.Name = "lblVer3";
             lblVer3.Size = new Size(140, 18);
             lblVer3.TabIndex = 33;
@@ -510,17 +515,18 @@
             // 
             chkRow3.Font = new Font("Arial", 9F);
             chkRow3.ForeColor = Color.FromArgb(70, 70, 70);
-            chkRow3.Location = new Point(266, 88);
+            chkRow3.Location = new Point(13, 96);
             chkRow3.Name = "chkRow3";
-            chkRow3.Size = new Size(70, 18);
+            chkRow3.Running = false;
+            chkRow3.Size = new Size(23, 14);
             chkRow3.TabIndex = 43;
-            chkRow3.Text = "Enabled";
+            chkRow3.TabStop = false;
             chkRow3.UseVisualStyleBackColor = true;
             // 
             // lblDot4
             // 
             lblDot4.BackColor = Color.Gainsboro;
-            lblDot4.Location = new Point(0, 133);
+            lblDot4.Location = new Point(10, 140);
             lblDot4.Name = "lblDot4";
             lblDot4.Size = new Size(10, 10);
             lblDot4.TabIndex = 14;
@@ -529,7 +535,7 @@
             // 
             lblName4.Font = new Font("Arial", 9.75F, FontStyle.Bold);
             lblName4.ForeColor = Color.FromArgb(40, 40, 40);
-            lblName4.Location = new Point(14, 128);
+            lblName4.Location = new Point(40, 135);
             lblName4.Name = "lblName4";
             lblName4.Size = new Size(100, 18);
             lblName4.TabIndex = 24;
@@ -537,9 +543,10 @@
             // 
             // lblVer4
             // 
+            lblVer4.Anchor = AnchorStyles.None;
             lblVer4.Font = new Font("Arial", 9F);
             lblVer4.ForeColor = Color.DimGray;
-            lblVer4.Location = new Point(120, 128);
+            lblVer4.Location = new Point(137, 135);
             lblVer4.Name = "lblVer4";
             lblVer4.Size = new Size(140, 18);
             lblVer4.TabIndex = 34;
@@ -549,17 +556,18 @@
             // 
             chkRow4.Font = new Font("Arial", 9F);
             chkRow4.ForeColor = Color.FromArgb(70, 70, 70);
-            chkRow4.Location = new Point(266, 128);
+            chkRow4.Location = new Point(13, 136);
             chkRow4.Name = "chkRow4";
-            chkRow4.Size = new Size(70, 18);
+            chkRow4.Running = false;
+            chkRow4.Size = new Size(23, 14);
             chkRow4.TabIndex = 44;
-            chkRow4.Text = "Enabled";
+            chkRow4.TabStop = false;
             chkRow4.UseVisualStyleBackColor = true;
             // 
             // lblDot5
             // 
             lblDot5.BackColor = Color.Gainsboro;
-            lblDot5.Location = new Point(0, 173);
+            lblDot5.Location = new Point(10, 180);
             lblDot5.Name = "lblDot5";
             lblDot5.Size = new Size(10, 10);
             lblDot5.TabIndex = 15;
@@ -568,7 +576,7 @@
             // 
             lblName5.Font = new Font("Arial", 9.75F, FontStyle.Bold);
             lblName5.ForeColor = Color.FromArgb(40, 40, 40);
-            lblName5.Location = new Point(14, 168);
+            lblName5.Location = new Point(40, 175);
             lblName5.Name = "lblName5";
             lblName5.Size = new Size(100, 18);
             lblName5.TabIndex = 25;
@@ -576,9 +584,10 @@
             // 
             // lblVer5
             // 
+            lblVer5.Anchor = AnchorStyles.None;
             lblVer5.Font = new Font("Arial", 9F);
             lblVer5.ForeColor = Color.DimGray;
-            lblVer5.Location = new Point(120, 168);
+            lblVer5.Location = new Point(137, 175);
             lblVer5.Name = "lblVer5";
             lblVer5.Size = new Size(140, 18);
             lblVer5.TabIndex = 35;
@@ -588,17 +597,18 @@
             // 
             chkRow5.Font = new Font("Arial", 9F);
             chkRow5.ForeColor = Color.FromArgb(70, 70, 70);
-            chkRow5.Location = new Point(266, 168);
+            chkRow5.Location = new Point(13, 176);
             chkRow5.Name = "chkRow5";
-            chkRow5.Size = new Size(70, 18);
+            chkRow5.Running = false;
+            chkRow5.Size = new Size(23, 14);
             chkRow5.TabIndex = 45;
-            chkRow5.Text = "Enabled";
+            chkRow5.TabStop = false;
             chkRow5.UseVisualStyleBackColor = true;
             // 
             // lblDot6
             // 
             lblDot6.BackColor = Color.Gainsboro;
-            lblDot6.Location = new Point(0, 213);
+            lblDot6.Location = new Point(10, 220);
             lblDot6.Name = "lblDot6";
             lblDot6.Size = new Size(10, 10);
             lblDot6.TabIndex = 16;
@@ -607,7 +617,7 @@
             // 
             lblName6.Font = new Font("Arial", 9.75F, FontStyle.Bold);
             lblName6.ForeColor = Color.FromArgb(40, 40, 40);
-            lblName6.Location = new Point(14, 208);
+            lblName6.Location = new Point(40, 215);
             lblName6.Name = "lblName6";
             lblName6.Size = new Size(100, 18);
             lblName6.TabIndex = 26;
@@ -615,9 +625,10 @@
             // 
             // lblVer6
             // 
+            lblVer6.Anchor = AnchorStyles.None;
             lblVer6.Font = new Font("Arial", 9F);
             lblVer6.ForeColor = Color.DimGray;
-            lblVer6.Location = new Point(120, 208);
+            lblVer6.Location = new Point(137, 215);
             lblVer6.Name = "lblVer6";
             lblVer6.Size = new Size(140, 18);
             lblVer6.TabIndex = 36;
@@ -627,17 +638,18 @@
             // 
             chkRow6.Font = new Font("Arial", 9F);
             chkRow6.ForeColor = Color.FromArgb(70, 70, 70);
-            chkRow6.Location = new Point(266, 208);
+            chkRow6.Location = new Point(13, 216);
             chkRow6.Name = "chkRow6";
-            chkRow6.Size = new Size(70, 18);
+            chkRow6.Running = false;
+            chkRow6.Size = new Size(23, 14);
             chkRow6.TabIndex = 46;
-            chkRow6.Text = "Enabled";
+            chkRow6.TabStop = false;
             chkRow6.UseVisualStyleBackColor = true;
             // 
             // lblDot7
             // 
             lblDot7.BackColor = Color.Gainsboro;
-            lblDot7.Location = new Point(0, 253);
+            lblDot7.Location = new Point(10, 260);
             lblDot7.Name = "lblDot7";
             lblDot7.Size = new Size(10, 10);
             lblDot7.TabIndex = 17;
@@ -646,7 +658,7 @@
             // 
             lblName7.Font = new Font("Arial", 9.75F, FontStyle.Bold);
             lblName7.ForeColor = Color.FromArgb(40, 40, 40);
-            lblName7.Location = new Point(14, 248);
+            lblName7.Location = new Point(40, 255);
             lblName7.Name = "lblName7";
             lblName7.Size = new Size(100, 18);
             lblName7.TabIndex = 27;
@@ -654,9 +666,10 @@
             // 
             // lblVer7
             // 
+            lblVer7.Anchor = AnchorStyles.None;
             lblVer7.Font = new Font("Arial", 9F);
             lblVer7.ForeColor = Color.DimGray;
-            lblVer7.Location = new Point(120, 248);
+            lblVer7.Location = new Point(137, 255);
             lblVer7.Name = "lblVer7";
             lblVer7.Size = new Size(140, 18);
             lblVer7.TabIndex = 37;
@@ -666,17 +679,18 @@
             // 
             chkRow7.Font = new Font("Arial", 9F);
             chkRow7.ForeColor = Color.FromArgb(70, 70, 70);
-            chkRow7.Location = new Point(266, 248);
+            chkRow7.Location = new Point(13, 256);
             chkRow7.Name = "chkRow7";
-            chkRow7.Size = new Size(70, 18);
+            chkRow7.Running = false;
+            chkRow7.Size = new Size(23, 14);
             chkRow7.TabIndex = 47;
-            chkRow7.Text = "Enabled";
+            chkRow7.TabStop = false;
             chkRow7.UseVisualStyleBackColor = true;
             // 
             // lblDot8
             // 
             lblDot8.BackColor = Color.Gainsboro;
-            lblDot8.Location = new Point(0, 293);
+            lblDot8.Location = new Point(10, 300);
             lblDot8.Name = "lblDot8";
             lblDot8.Size = new Size(10, 10);
             lblDot8.TabIndex = 18;
@@ -685,7 +699,7 @@
             // 
             lblName8.Font = new Font("Arial", 9.75F, FontStyle.Bold);
             lblName8.ForeColor = Color.FromArgb(40, 40, 40);
-            lblName8.Location = new Point(14, 288);
+            lblName8.Location = new Point(40, 295);
             lblName8.Name = "lblName8";
             lblName8.Size = new Size(100, 18);
             lblName8.TabIndex = 28;
@@ -693,9 +707,10 @@
             // 
             // lblVer8
             // 
+            lblVer8.Anchor = AnchorStyles.None;
             lblVer8.Font = new Font("Arial", 9F);
             lblVer8.ForeColor = Color.DimGray;
-            lblVer8.Location = new Point(120, 288);
+            lblVer8.Location = new Point(137, 295);
             lblVer8.Name = "lblVer8";
             lblVer8.Size = new Size(140, 18);
             lblVer8.TabIndex = 38;
@@ -705,17 +720,18 @@
             // 
             chkRow8.Font = new Font("Arial", 9F);
             chkRow8.ForeColor = Color.FromArgb(70, 70, 70);
-            chkRow8.Location = new Point(266, 288);
+            chkRow8.Location = new Point(13, 296);
             chkRow8.Name = "chkRow8";
-            chkRow8.Size = new Size(70, 18);
+            chkRow8.Running = false;
+            chkRow8.Size = new Size(23, 14);
             chkRow8.TabIndex = 48;
-            chkRow8.Text = "Enabled";
+            chkRow8.TabStop = false;
             chkRow8.UseVisualStyleBackColor = true;
             // 
             // lblDot9
             // 
             lblDot9.BackColor = Color.Gainsboro;
-            lblDot9.Location = new Point(0, 333);
+            lblDot9.Location = new Point(10, 340);
             lblDot9.Name = "lblDot9";
             lblDot9.Size = new Size(10, 10);
             lblDot9.TabIndex = 19;
@@ -724,7 +740,7 @@
             // 
             lblName9.Font = new Font("Arial", 9.75F, FontStyle.Bold);
             lblName9.ForeColor = Color.FromArgb(40, 40, 40);
-            lblName9.Location = new Point(14, 328);
+            lblName9.Location = new Point(40, 335);
             lblName9.Name = "lblName9";
             lblName9.Size = new Size(100, 18);
             lblName9.TabIndex = 29;
@@ -732,9 +748,10 @@
             // 
             // lblVer9
             // 
+            lblVer9.Anchor = AnchorStyles.None;
             lblVer9.Font = new Font("Arial", 9F);
             lblVer9.ForeColor = Color.DimGray;
-            lblVer9.Location = new Point(120, 328);
+            lblVer9.Location = new Point(137, 335);
             lblVer9.Name = "lblVer9";
             lblVer9.Size = new Size(140, 18);
             lblVer9.TabIndex = 39;
@@ -744,17 +761,18 @@
             // 
             chkRow9.Font = new Font("Arial", 9F);
             chkRow9.ForeColor = Color.FromArgb(70, 70, 70);
-            chkRow9.Location = new Point(266, 328);
+            chkRow9.Location = new Point(13, 336);
             chkRow9.Name = "chkRow9";
-            chkRow9.Size = new Size(70, 18);
+            chkRow9.Running = false;
+            chkRow9.Size = new Size(23, 14);
             chkRow9.TabIndex = 49;
-            chkRow9.Text = "Enabled";
+            chkRow9.TabStop = false;
             chkRow9.UseVisualStyleBackColor = true;
             // 
             // lblDot10
             // 
             lblDot10.BackColor = Color.Gainsboro;
-            lblDot10.Location = new Point(400, 13);
+            lblDot10.Location = new Point(410, 20);
             lblDot10.Name = "lblDot10";
             lblDot10.Size = new Size(10, 10);
             lblDot10.TabIndex = 20;
@@ -763,7 +781,7 @@
             // 
             lblName10.Font = new Font("Arial", 9.75F, FontStyle.Bold);
             lblName10.ForeColor = Color.FromArgb(40, 40, 40);
-            lblName10.Location = new Point(414, 8);
+            lblName10.Location = new Point(440, 15);
             lblName10.Name = "lblName10";
             lblName10.Size = new Size(100, 18);
             lblName10.TabIndex = 30;
@@ -773,7 +791,7 @@
             // 
             lblVer10.Font = new Font("Arial", 9F);
             lblVer10.ForeColor = Color.DimGray;
-            lblVer10.Location = new Point(520, 8);
+            lblVer10.Location = new Point(573, 15);
             lblVer10.Name = "lblVer10";
             lblVer10.Size = new Size(140, 18);
             lblVer10.TabIndex = 40;
@@ -783,17 +801,18 @@
             // 
             chkRow10.Font = new Font("Arial", 9F);
             chkRow10.ForeColor = Color.FromArgb(70, 70, 70);
-            chkRow10.Location = new Point(717, 8);
+            chkRow10.Location = new Point(413, 16);
             chkRow10.Name = "chkRow10";
-            chkRow10.Size = new Size(70, 18);
+            chkRow10.Running = false;
+            chkRow10.Size = new Size(23, 14);
             chkRow10.TabIndex = 50;
-            chkRow10.Text = "Enabled";
+            chkRow10.TabStop = false;
             chkRow10.UseVisualStyleBackColor = true;
             // 
             // lblDot11
             // 
             lblDot11.BackColor = Color.Gainsboro;
-            lblDot11.Location = new Point(400, 53);
+            lblDot11.Location = new Point(410, 60);
             lblDot11.Name = "lblDot11";
             lblDot11.Size = new Size(10, 10);
             lblDot11.TabIndex = 21;
@@ -802,7 +821,7 @@
             // 
             lblName11.Font = new Font("Arial", 9.75F, FontStyle.Bold);
             lblName11.ForeColor = Color.FromArgb(40, 40, 40);
-            lblName11.Location = new Point(414, 48);
+            lblName11.Location = new Point(440, 55);
             lblName11.Name = "lblName11";
             lblName11.Size = new Size(100, 18);
             lblName11.TabIndex = 31;
@@ -812,7 +831,7 @@
             // 
             lblVer11.Font = new Font("Arial", 9F);
             lblVer11.ForeColor = Color.DimGray;
-            lblVer11.Location = new Point(520, 48);
+            lblVer11.Location = new Point(573, 55);
             lblVer11.Name = "lblVer11";
             lblVer11.Size = new Size(140, 18);
             lblVer11.TabIndex = 41;
@@ -822,17 +841,18 @@
             // 
             chkRow11.Font = new Font("Arial", 9F);
             chkRow11.ForeColor = Color.FromArgb(70, 70, 70);
-            chkRow11.Location = new Point(717, 48);
+            chkRow11.Location = new Point(413, 56);
             chkRow11.Name = "chkRow11";
-            chkRow11.Size = new Size(70, 18);
+            chkRow11.Running = false;
+            chkRow11.Size = new Size(23, 14);
             chkRow11.TabIndex = 51;
-            chkRow11.Text = "Enabled";
+            chkRow11.TabStop = false;
             chkRow11.UseVisualStyleBackColor = true;
             // 
             // lblDot12
             // 
             lblDot12.BackColor = Color.Gainsboro;
-            lblDot12.Location = new Point(400, 93);
+            lblDot12.Location = new Point(410, 100);
             lblDot12.Name = "lblDot12";
             lblDot12.Size = new Size(10, 10);
             lblDot12.TabIndex = 22;
@@ -841,7 +861,7 @@
             // 
             lblName12.Font = new Font("Arial", 9.75F, FontStyle.Bold);
             lblName12.ForeColor = Color.FromArgb(40, 40, 40);
-            lblName12.Location = new Point(414, 88);
+            lblName12.Location = new Point(440, 95);
             lblName12.Name = "lblName12";
             lblName12.Size = new Size(100, 18);
             lblName12.TabIndex = 32;
@@ -851,7 +871,7 @@
             // 
             lblVer12.Font = new Font("Arial", 9F);
             lblVer12.ForeColor = Color.DimGray;
-            lblVer12.Location = new Point(520, 88);
+            lblVer12.Location = new Point(573, 95);
             lblVer12.Name = "lblVer12";
             lblVer12.Size = new Size(140, 18);
             lblVer12.TabIndex = 42;
@@ -861,17 +881,18 @@
             // 
             chkRow12.Font = new Font("Arial", 9F);
             chkRow12.ForeColor = Color.FromArgb(70, 70, 70);
-            chkRow12.Location = new Point(717, 88);
+            chkRow12.Location = new Point(413, 96);
             chkRow12.Name = "chkRow12";
-            chkRow12.Size = new Size(70, 18);
+            chkRow12.Running = false;
+            chkRow12.Size = new Size(23, 14);
             chkRow12.TabIndex = 52;
-            chkRow12.Text = "Enabled";
+            chkRow12.TabStop = false;
             chkRow12.UseVisualStyleBackColor = true;
             // 
             // lblDot13
             // 
             lblDot13.BackColor = Color.Gainsboro;
-            lblDot13.Location = new Point(400, 133);
+            lblDot13.Location = new Point(410, 140);
             lblDot13.Name = "lblDot13";
             lblDot13.Size = new Size(10, 10);
             lblDot13.TabIndex = 23;
@@ -880,7 +901,7 @@
             // 
             lblName13.Font = new Font("Arial", 9.75F, FontStyle.Bold);
             lblName13.ForeColor = Color.FromArgb(40, 40, 40);
-            lblName13.Location = new Point(414, 128);
+            lblName13.Location = new Point(440, 135);
             lblName13.Name = "lblName13";
             lblName13.Size = new Size(100, 18);
             lblName13.TabIndex = 33;
@@ -890,7 +911,7 @@
             // 
             lblVer13.Font = new Font("Arial", 9F);
             lblVer13.ForeColor = Color.DimGray;
-            lblVer13.Location = new Point(520, 128);
+            lblVer13.Location = new Point(573, 135);
             lblVer13.Name = "lblVer13";
             lblVer13.Size = new Size(140, 18);
             lblVer13.TabIndex = 43;
@@ -900,17 +921,18 @@
             // 
             chkRow13.Font = new Font("Arial", 9F);
             chkRow13.ForeColor = Color.FromArgb(70, 70, 70);
-            chkRow13.Location = new Point(717, 128);
+            chkRow13.Location = new Point(413, 136);
             chkRow13.Name = "chkRow13";
-            chkRow13.Size = new Size(70, 18);
+            chkRow13.Running = false;
+            chkRow13.Size = new Size(23, 14);
             chkRow13.TabIndex = 53;
-            chkRow13.Text = "Enabled";
+            chkRow13.TabStop = false;
             chkRow13.UseVisualStyleBackColor = true;
             // 
             // lblDot14
             // 
             lblDot14.BackColor = Color.Gainsboro;
-            lblDot14.Location = new Point(400, 173);
+            lblDot14.Location = new Point(410, 180);
             lblDot14.Name = "lblDot14";
             lblDot14.Size = new Size(10, 10);
             lblDot14.TabIndex = 24;
@@ -919,7 +941,7 @@
             // 
             lblName14.Font = new Font("Arial", 9.75F, FontStyle.Bold);
             lblName14.ForeColor = Color.FromArgb(40, 40, 40);
-            lblName14.Location = new Point(414, 168);
+            lblName14.Location = new Point(440, 175);
             lblName14.Name = "lblName14";
             lblName14.Size = new Size(100, 18);
             lblName14.TabIndex = 34;
@@ -929,7 +951,7 @@
             // 
             lblVer14.Font = new Font("Arial", 9F);
             lblVer14.ForeColor = Color.DimGray;
-            lblVer14.Location = new Point(520, 168);
+            lblVer14.Location = new Point(573, 175);
             lblVer14.Name = "lblVer14";
             lblVer14.Size = new Size(140, 18);
             lblVer14.TabIndex = 44;
@@ -939,17 +961,18 @@
             // 
             chkRow14.Font = new Font("Arial", 9F);
             chkRow14.ForeColor = Color.FromArgb(70, 70, 70);
-            chkRow14.Location = new Point(717, 168);
+            chkRow14.Location = new Point(413, 176);
             chkRow14.Name = "chkRow14";
-            chkRow14.Size = new Size(70, 18);
+            chkRow14.Running = false;
+            chkRow14.Size = new Size(23, 14);
             chkRow14.TabIndex = 54;
-            chkRow14.Text = "Enabled";
+            chkRow14.TabStop = false;
             chkRow14.UseVisualStyleBackColor = true;
             // 
             // lblDot15
             // 
             lblDot15.BackColor = Color.Gainsboro;
-            lblDot15.Location = new Point(400, 213);
+            lblDot15.Location = new Point(410, 220);
             lblDot15.Name = "lblDot15";
             lblDot15.Size = new Size(10, 10);
             lblDot15.TabIndex = 25;
@@ -958,7 +981,7 @@
             // 
             lblName15.Font = new Font("Arial", 9.75F, FontStyle.Bold);
             lblName15.ForeColor = Color.FromArgb(40, 40, 40);
-            lblName15.Location = new Point(414, 208);
+            lblName15.Location = new Point(440, 215);
             lblName15.Name = "lblName15";
             lblName15.Size = new Size(100, 18);
             lblName15.TabIndex = 35;
@@ -968,7 +991,7 @@
             // 
             lblVer15.Font = new Font("Arial", 9F);
             lblVer15.ForeColor = Color.DimGray;
-            lblVer15.Location = new Point(520, 208);
+            lblVer15.Location = new Point(573, 215);
             lblVer15.Name = "lblVer15";
             lblVer15.Size = new Size(140, 18);
             lblVer15.TabIndex = 45;
@@ -978,17 +1001,18 @@
             // 
             chkRow15.Font = new Font("Arial", 9F);
             chkRow15.ForeColor = Color.FromArgb(70, 70, 70);
-            chkRow15.Location = new Point(717, 208);
+            chkRow15.Location = new Point(413, 216);
             chkRow15.Name = "chkRow15";
-            chkRow15.Size = new Size(70, 18);
+            chkRow15.Running = false;
+            chkRow15.Size = new Size(23, 14);
             chkRow15.TabIndex = 55;
-            chkRow15.Text = "Enabled";
+            chkRow15.TabStop = false;
             chkRow15.UseVisualStyleBackColor = true;
             // 
             // lblDot16
             // 
             lblDot16.BackColor = Color.Gainsboro;
-            lblDot16.Location = new Point(400, 253);
+            lblDot16.Location = new Point(410, 260);
             lblDot16.Name = "lblDot16";
             lblDot16.Size = new Size(10, 10);
             lblDot16.TabIndex = 26;
@@ -997,7 +1021,7 @@
             // 
             lblName16.Font = new Font("Arial", 9.75F, FontStyle.Bold);
             lblName16.ForeColor = Color.FromArgb(40, 40, 40);
-            lblName16.Location = new Point(414, 248);
+            lblName16.Location = new Point(440, 255);
             lblName16.Name = "lblName16";
             lblName16.Size = new Size(100, 18);
             lblName16.TabIndex = 36;
@@ -1007,7 +1031,7 @@
             // 
             lblVer16.Font = new Font("Arial", 9F);
             lblVer16.ForeColor = Color.DimGray;
-            lblVer16.Location = new Point(520, 248);
+            lblVer16.Location = new Point(573, 255);
             lblVer16.Name = "lblVer16";
             lblVer16.Size = new Size(140, 18);
             lblVer16.TabIndex = 46;
@@ -1017,17 +1041,18 @@
             // 
             chkRow16.Font = new Font("Arial", 9F);
             chkRow16.ForeColor = Color.FromArgb(70, 70, 70);
-            chkRow16.Location = new Point(717, 248);
+            chkRow16.Location = new Point(413, 256);
             chkRow16.Name = "chkRow16";
-            chkRow16.Size = new Size(70, 18);
+            chkRow16.Running = false;
+            chkRow16.Size = new Size(23, 14);
             chkRow16.TabIndex = 56;
-            chkRow16.Text = "Enabled";
+            chkRow16.TabStop = false;
             chkRow16.UseVisualStyleBackColor = true;
             // 
             // lblDot17
             // 
             lblDot17.BackColor = Color.Gainsboro;
-            lblDot17.Location = new Point(400, 293);
+            lblDot17.Location = new Point(410, 300);
             lblDot17.Name = "lblDot17";
             lblDot17.Size = new Size(10, 10);
             lblDot17.TabIndex = 27;
@@ -1036,7 +1061,7 @@
             // 
             lblName17.Font = new Font("Arial", 9.75F, FontStyle.Bold);
             lblName17.ForeColor = Color.FromArgb(40, 40, 40);
-            lblName17.Location = new Point(414, 288);
+            lblName17.Location = new Point(440, 295);
             lblName17.Name = "lblName17";
             lblName17.Size = new Size(100, 18);
             lblName17.TabIndex = 37;
@@ -1046,7 +1071,7 @@
             // 
             lblVer17.Font = new Font("Arial", 9F);
             lblVer17.ForeColor = Color.DimGray;
-            lblVer17.Location = new Point(520, 288);
+            lblVer17.Location = new Point(573, 295);
             lblVer17.Name = "lblVer17";
             lblVer17.Size = new Size(140, 18);
             lblVer17.TabIndex = 47;
@@ -1056,17 +1081,18 @@
             // 
             chkRow17.Font = new Font("Arial", 9F);
             chkRow17.ForeColor = Color.FromArgb(70, 70, 70);
-            chkRow17.Location = new Point(717, 288);
+            chkRow17.Location = new Point(413, 296);
             chkRow17.Name = "chkRow17";
-            chkRow17.Size = new Size(70, 18);
+            chkRow17.Running = false;
+            chkRow17.Size = new Size(23, 14);
             chkRow17.TabIndex = 57;
-            chkRow17.Text = "Enabled";
+            chkRow17.TabStop = false;
             chkRow17.UseVisualStyleBackColor = true;
             // 
             // lblDot18
             // 
             lblDot18.BackColor = Color.Gainsboro;
-            lblDot18.Location = new Point(400, 333);
+            lblDot18.Location = new Point(410, 340);
             lblDot18.Name = "lblDot18";
             lblDot18.Size = new Size(10, 10);
             lblDot18.TabIndex = 28;
@@ -1075,7 +1101,7 @@
             // 
             lblName18.Font = new Font("Arial", 9.75F, FontStyle.Bold);
             lblName18.ForeColor = Color.FromArgb(40, 40, 40);
-            lblName18.Location = new Point(414, 328);
+            lblName18.Location = new Point(440, 335);
             lblName18.Name = "lblName18";
             lblName18.Size = new Size(100, 18);
             lblName18.TabIndex = 38;
@@ -1085,7 +1111,7 @@
             // 
             lblVer18.Font = new Font("Arial", 9F);
             lblVer18.ForeColor = Color.DimGray;
-            lblVer18.Location = new Point(520, 328);
+            lblVer18.Location = new Point(573, 335);
             lblVer18.Name = "lblVer18";
             lblVer18.Size = new Size(140, 18);
             lblVer18.TabIndex = 48;
@@ -1095,11 +1121,12 @@
             // 
             chkRow18.Font = new Font("Arial", 9F);
             chkRow18.ForeColor = Color.FromArgb(70, 70, 70);
-            chkRow18.Location = new Point(717, 328);
+            chkRow18.Location = new Point(413, 336);
             chkRow18.Name = "chkRow18";
-            chkRow18.Size = new Size(70, 18);
+            chkRow18.Running = false;
+            chkRow18.Size = new Size(23, 14);
             chkRow18.TabIndex = 58;
-            chkRow18.Text = "Enabled";
+            chkRow18.TabStop = false;
             chkRow18.UseVisualStyleBackColor = true;
             // 
             // panelTopLeft
@@ -1264,7 +1291,7 @@
             // 
             lblStatus.Font = new Font("Arial", 9.75F);
             lblStatus.ForeColor = Color.DimGray;
-            lblStatus.Location = new Point(12, 268);
+            lblStatus.Location = new Point(12, 272);
             lblStatus.Name = "lblStatus";
             lblStatus.Size = new Size(546, 20);
             lblStatus.TabIndex = 2;
@@ -1292,7 +1319,7 @@
             // 
             // panelNotification
             // 
-            panelNotification.BackColor = Color.White;
+            panelNotification.BackColor = Color.WhiteSmoke;
             panelNotification.Controls.Add(lblNotification);
             panelNotification.Controls.Add(btnNotificationOK);
             panelNotification.Location = new Point(107, 490);
@@ -1340,6 +1367,7 @@
             // 
             // panelBtns
             // 
+            panelBtns.BackColor = Color.WhiteSmoke;
             panelBtns.Controls.Add(btnStop);
             panelBtns.Controls.Add(btnStart);
             panelBtns.Controls.Add(btnWeb);
@@ -1432,6 +1460,7 @@
             // 
             // notifyIcon
             // 
+            notifyIcon.Icon = (Icon)resources.GetObject("notifyIcon.Icon");
             notifyIcon.Text = "Laragon";
             notifyIcon.Visible = true;
             // 
@@ -1445,6 +1474,7 @@
             // mnuLaragonClick
             // 
             mnuLaragonClick.DropDownItems.AddRange(new ToolStripItem[] { mnuWeb2Click, mnuDatabase2Click, mnuShell2Click, mnuRoot2Click, mnuItem6, mnuItem7, mnuItem8, mnuItem9, mnuMenuLaragonDirUserClick, mnuUserProfileCmdClick, mnuItem12, mnuLaragonIniClick, mnuItem14, mnuLaragonLogClick });
+            mnuLaragonClick.Image = (Image)resources.GetObject("mnuLaragonClick.Image");
             mnuLaragonClick.Name = "mnuLaragonClick";
             mnuLaragonClick.Size = new Size(160, 22);
             mnuLaragonClick.Tag = "MnuLaragonClick";
@@ -3214,7 +3244,7 @@
             MaximizeBox = false;
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Laragon";
+            Text = "XLaragon";
             panelTopLeft.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)picLogo).EndInit();
             ((System.ComponentModel.ISupportInitialize)picPref).EndInit();
@@ -3232,75 +3262,75 @@
         private System.Windows.Forms.Label lblDot1;
         private System.Windows.Forms.Label lblName1;
         private System.Windows.Forms.Label lblVer1;
-        private System.Windows.Forms.CheckBox chkRow1;
+        private PillSwitch chkRow1;
         private System.Windows.Forms.Label lblDot2;
         private System.Windows.Forms.Label lblName2;
         private System.Windows.Forms.Label lblVer2;
-        private System.Windows.Forms.CheckBox chkRow2;
+        private PillSwitch chkRow2;
         private System.Windows.Forms.Label lblDot3;
         private System.Windows.Forms.Label lblName3;
         private System.Windows.Forms.Label lblVer3;
-        private System.Windows.Forms.CheckBox chkRow3;
+        private PillSwitch chkRow3;
         private System.Windows.Forms.Label lblDot4;
         private System.Windows.Forms.Label lblName4;
         private System.Windows.Forms.Label lblVer4;
-        private System.Windows.Forms.CheckBox chkRow4;
+        private PillSwitch chkRow4;
         private System.Windows.Forms.Label lblDot5;
         private System.Windows.Forms.Label lblName5;
         private System.Windows.Forms.Label lblVer5;
-        private System.Windows.Forms.CheckBox chkRow5;
+        private PillSwitch chkRow5;
         private System.Windows.Forms.Label lblDot6;
         private System.Windows.Forms.Label lblName6;
         private System.Windows.Forms.Label lblVer6;
-        private System.Windows.Forms.CheckBox chkRow6;
+        private PillSwitch chkRow6;
         private System.Windows.Forms.Label lblDot7;
         private System.Windows.Forms.Label lblName7;
         private System.Windows.Forms.Label lblVer7;
-        private System.Windows.Forms.CheckBox chkRow7;
+        private PillSwitch chkRow7;
         private System.Windows.Forms.Label lblDot8;
         private System.Windows.Forms.Label lblName8;
         private System.Windows.Forms.Label lblVer8;
-        private System.Windows.Forms.CheckBox chkRow8;
+        private PillSwitch chkRow8;
         private System.Windows.Forms.Label lblDot9;
         private System.Windows.Forms.Label lblName9;
         private System.Windows.Forms.Label lblVer9;
-        private System.Windows.Forms.CheckBox chkRow9;
+        private PillSwitch chkRow9;
         private System.Windows.Forms.Label lblDot10;
         private System.Windows.Forms.Label lblName10;
         private System.Windows.Forms.Label lblVer10;
-        private System.Windows.Forms.CheckBox chkRow10;
+        private PillSwitch chkRow10;
         private System.Windows.Forms.Label lblDot11;
         private System.Windows.Forms.Label lblName11;
         private System.Windows.Forms.Label lblVer11;
-        private System.Windows.Forms.CheckBox chkRow11;
+        private PillSwitch chkRow11;
         private System.Windows.Forms.Label lblDot12;
         private System.Windows.Forms.Label lblName12;
         private System.Windows.Forms.Label lblVer12;
-        private System.Windows.Forms.CheckBox chkRow12;
+        private PillSwitch chkRow12;
         private System.Windows.Forms.Label lblDot13;
         private System.Windows.Forms.Label lblName13;
         private System.Windows.Forms.Label lblVer13;
-        private System.Windows.Forms.CheckBox chkRow13;
+        private PillSwitch chkRow13;
         private System.Windows.Forms.Label lblDot14;
         private System.Windows.Forms.Label lblName14;
         private System.Windows.Forms.Label lblVer14;
-        private System.Windows.Forms.CheckBox chkRow14;
+        private PillSwitch chkRow14;
         private System.Windows.Forms.Label lblDot15;
         private System.Windows.Forms.Label lblName15;
         private System.Windows.Forms.Label lblVer15;
-        private System.Windows.Forms.CheckBox chkRow15;
+        private PillSwitch chkRow15;
         private System.Windows.Forms.Label lblDot16;
         private System.Windows.Forms.Label lblName16;
         private System.Windows.Forms.Label lblVer16;
-        private System.Windows.Forms.CheckBox chkRow16;
+        private PillSwitch chkRow16;
         private System.Windows.Forms.Label lblDot17;
         private System.Windows.Forms.Label lblName17;
         private System.Windows.Forms.Label lblVer17;
-        private System.Windows.Forms.CheckBox chkRow17;
+        private PillSwitch chkRow17;
         private System.Windows.Forms.Label lblDot18;
         private System.Windows.Forms.Label lblName18;
         private System.Windows.Forms.Label lblVer18;
-        private System.Windows.Forms.CheckBox chkRow18;
+        private PillSwitch chkRow18;
         private System.Windows.Forms.Panel panelTopLeft;
         private System.Windows.Forms.PictureBox picLogo;
         private System.Windows.Forms.Label lblMenu;

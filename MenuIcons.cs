@@ -315,11 +315,6 @@ namespace Laragon
                 return "page";
             }
 
-            if (mark.Contains("mnularagonclick"))
-            {
-                return "logo";
-            }
-
             if (mark.Contains("mnularagonlogclick"))
             {
                 return "log";

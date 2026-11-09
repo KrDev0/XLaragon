@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -124,8 +124,7 @@ namespace Laragon
 
         private void ApplyArtwork()
         {
-            Icon = Icons.AppIcon();
-            notifyIcon.Icon = Icon;
+
             btnStart.Image = Icons.Play(18, Color.FromArgb(30, 140, 60));
             btnStop.Image = Icons.Stop(16, Color.FromArgb(170, 40, 40));
             btnWeb.Image = Icons.Globe(20);
@@ -178,6 +177,7 @@ namespace Laragon
             btnDatabase.Click += delegate { OpenDatabase(); };
             btnShell.Click += delegate { OpenTerminal(); };
             btnDir.Click += delegate { OpenRoot(); };
+            FitCaptions();
 
             lblHelp.Click += delegate { ShowHelp(); };
             lblHosts.Click += delegate { OpenHostsFile(); };
@@ -265,22 +265,20 @@ namespace Laragon
         {
             _shown.Clear();
 
-            // Every service gets a row, installed or not. The original's Start All walks its
-            // whole service list and asks FUN_1000abc80 about each record — the record's
-            // Enabled flag at +0x48 and whether its program is on disk — so a service whose
-            // program is missing still exists and still has its switch. Listing only what was
-            // found in bin\ pushed the services out of the right-hand column and left it with
-            // no ticks at all.
-            foreach (Component service in _stack.Components.Where(c => c.IsService))
+            // Every one of the eighteen software records takes one of the eighteen row slots,
+            // installed or not. The owner asked for that directly ("los elementos del lblName13
+            // al lblName18 no me los esta mostrando"): a row that is switched off at run time is
+            // also a row whose labels he cannot place by hand in the designer, which is the whole
+            // point of these controls.
+            //
+            // What a missing install costs is the row's usefulness, not the row: its version
+            // column reads "-" and its switch is greyed (see below), so Start All still skips it
+            // exactly as the original does — FUN_10008c470 (0x10008c470) tests each service's
+            // program with FUN_10001e550 (0x10001e550) before showing its widgets, and
+            // FUN_1000abc80 (0x1000abc80) makes the same test before starting anything.
+            foreach (Component each in _stack.Components)
             {
-                _shown.Add(service);
-            }
-
-            // then the other programs found in bin\ (Composer, Node.js, Git…): rows of the same
-            // list, each with its own Enabled switch, so a tool can be ticked and unticked too
-            foreach (Component tool in _stack.Components.Where(c => !c.IsService && c.Installed))
-            {
-                _shown.Add(tool);
+                _shown.Add(each);
             }
 
             int order(Component c)
@@ -307,7 +305,10 @@ namespace Laragon
                 for (int i = 0; i < _dots.Count; i++)
                 {
                     bool used = i < need;
-                    _dots[i].Visible = used;
+                    // the person's picture has no separate status dot beside a row: the switch at
+                    // the row's left carries both "takes part in Start All" and "is running", so
+                    // the dot stays in the designer (it can be moved there) but is never drawn
+                    _dots[i].Visible = false;
                     _names[i].Visible = used;
                     _versions[i].Visible = used;
                     _ticks[i].Visible = used && _shown.Count > i;
@@ -317,24 +318,28 @@ namespace Laragon
                     }
 
                     Component component = _shown[i];
-                    int column = i / RowsPerColumn;
-                    int row = i % RowsPerColumn;
-                    int x = column * 400;
-                    int y = 8 + row * RowHeight;
-
-                    _dots[i].Location = new Point(x, y + 5);
+                    // Nothing here writes a position any more. The eighteen row slots keep the
+                    // place MainForm.Designer.cs gives them, so moving lblVer (or any other
+                    // control) in the Visual Studio designer is exactly where it shows up. What
+                    // the designer holds is the same 40 px row grid measured on the person's
+                    // pictures, which is why the window looks unchanged.
                     _dots[i].BackColor = component.IsRunning
                         ? Color.FromArgb(76, 175, 80)
                         : Color.FromArgb(205, 205, 205);
 
-                    _names[i].Location = new Point(x + 14, y);
                     _names[i].Text = component.Name;
 
-                    _versions[i].Location = new Point(x + 120, y);
                     _versions[i].Text = string.IsNullOrEmpty(component.Version) ? "-" : component.Version;
                     _versions[i].ForeColor = component.IsService ? Color.DimGray : Color.Silver;
 
-                    _ticks[i].Location = new Point(x + 266, y);
+                    // the switch sits at the very left of the row and its knob, not the word
+                    // "Enabled", is what says whether the service is chosen
+                    var pill = _ticks[i] as PillSwitch;
+                    if (pill != null)
+                    {
+                        pill.Running = component.IsRunning;
+                    }
+
                     _ticks[i].Tag = component.Key;
                     // a service whose program is not installed can be seen but not switched on:
                     // the original tests the file on disk as well (FUN_10001e550 from FUN_1000abc80)
@@ -413,6 +418,33 @@ namespace Laragon
             _versions.ForEach(d => d.BringToFront());
             lblStatus.BringToFront();
         }
+
+        /// <summary>
+        /// FUN_100084660 (0x100084660), applied by FUN_1000845a0 (0x1000845a0) to the six
+        /// bottom buttons: when the caption measured with the button's own font
+        /// (FUN_100084510, 0x100084510) is wider than the button, the caption is replaced by
+        /// its first fifteen characters and the literal at 0x100395260, "...". The button
+        /// keeps its size; only the word is cut.
+        /// </summary>
+        private void FitCaptions()
+        {
+            Button[] bottom = { btnStart, btnStop, btnWeb, btnDatabase, btnShell, btnDir };
+            foreach (Button button in bottom)
+            {
+                if (button == null || string.IsNullOrEmpty(button.Text))
+                {
+                    continue;
+                }
+
+                int measured = TextRenderer.MeasureText(button.Text, button.Font).Width;
+                if (button.Width < measured && button.Text.Length > CaptionChars)
+                {
+                    button.Text = button.Text.Substring(0, CaptionChars) + "...";
+                }
+            }
+        }
+
+        private const int CaptionChars = 0xf;
 
         private void ShowNotification(string text)
         {
