@@ -26,8 +26,8 @@ XLaragon busca una instalación junto al ejecutable y, si no la encuentra, compr
 
 En [Releases](https://github.com/KrDev0/XLaragon/releases/latest) hay dos paquetes para Windows x64:
 
-- [**XLaragon Lite**](https://github.com/KrDev0/XLaragon/releases/latest/download/XLaragon-Lite-v1.1.0-win-x64.zip): contiene el ensamblado y necesita tener instalado el **.NET 9 Desktop Runtime** (x64).
-- [**XLaragon autocontenido**](https://github.com/KrDev0/XLaragon/releases/latest/download/XLaragon-Standalone-v1.1.0-win-x64.zip): incluye el runtime y no necesita instalar .NET por separado; ocupa más espacio.
+- [**XLaragon Lite**](https://github.com/KrDev0/XLaragon/releases/latest/download/XLaragon-Lite-v1.0.0-win-x64.zip): contiene el ensamblado y necesita tener instalado el **.NET 9 Desktop Runtime** (x64).
+- [**XLaragon autocontenida**](https://github.com/KrDev0/XLaragon/releases/latest/download/XLaragon-Autocontenida-v1.0.0-win-x64.zip): incluye el runtime y no necesita instalar .NET por separado; ocupa más espacio.
 
 Descarga y extrae una de las opciones. Ejecuta `xlaragon.exe` desde la carpeta raíz de tu instalación de Laragon, o desde una carpeta con una instalación en `C:\laragon`.
 
